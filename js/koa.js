@@ -1,3 +1,5 @@
+process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0'
+
 import polyfill from "babel-polyfill"
 
 const cluster = require('cluster')
@@ -94,12 +96,13 @@ const replaceRemoteTokens = (ctx, webUrl, tokens=webUrl.match(/:(\w+)/ig)) =>
     (tokens || []).reduce((a, t) =>
         a.replace(new RegExp(t, 'ig'), ctx.params[t.substr(1)]), webUrl)
 
-const get = url =>
+const get = (url, headers={}) =>
     new Promise((res,rej) => {
         request({
             url,
             headers: {
-                'User-Agent': 'request'
+                'User-Agent': 'request',
+                ...headers
             }
         }, (error, response, body) => {
             if(!error) { // && response.statusCode === 200
@@ -109,10 +112,13 @@ const get = url =>
         })
     })
 
-const proxify = (router, localUrl, webUrl) => {
+const proxify = (router, localUrl, webUrl, headers) => {
     router.get(localUrl, async (ctx, next) => {
         try {
-            var data = await get(replaceRemoteTokens(ctx, webUrl) + (ctx.req._parsedUrl.search || ''))
+            console.log('--------------',{
+                url: replaceRemoteTokens(ctx, webUrl) + (ctx.req._parsedUrl.search || '')
+            })
+            var data = await get(replaceRemoteTokens(ctx, webUrl) + (ctx.req._parsedUrl.search || ''), headers)
         } catch(e) {
             ctx.body = e
             return
@@ -131,6 +137,7 @@ const proxify = (router, localUrl, webUrl) => {
 // examples:
 // proxify(router, '/yummly/recipes', 'http://api.yummly.com/v1/api/recipes')
 // proxify(router, '/brewery/styles', 'https://api.brewerydb.com/v2/styles')
+proxify(router, '/macrofab/:r1/:r2/:r3', 'https://demo.development.macrofab.com/api/v2/:r1/:r2/:r3', {Accept: 'application/json'})
 
 const guid = (function() {
     const s4 = () => Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1)

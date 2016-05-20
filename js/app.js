@@ -14,12 +14,12 @@ import fetch from "isomorphic-fetch"
 // the following line, if uncommented, will enable browserify to push
 // a changed fn to you, with source maps (reverse map from compiled
 // code line # to source code line #), in realtime via websockets
-// if (module.hot) {
-//     module.hot.accept()
-//     module.hot.dispose(() => {
-//         app()
-//     })
-// }
+if (module.hot) {
+    module.hot.accept()
+    module.hot.dispose(() => {
+        app()
+    })
+}
 
 // Check for ServiceWorker support before trying to install it
 // if ('serviceWorker' in navigator) {
@@ -41,11 +41,75 @@ import fetch from "isomorphic-fetch"
 
 import DOM from 'react-dom'
 import React, {Component} from 'react'
+import Backbone from 'backbone'
+
+//------------- Model/Collection -------------//
+var PCB = Backbone.Model.extend ({
+	url: "/macrofab/pcb/0dn5h4/1?",
+	_apiKey: "tvkIHgLau3M18w8WeGOMdKC3mA7yiOA",
+	initialize: function(){
+		this.on('change', () => {
+			console.log(this.toJSON())
+		})
+	}
+})
+
+var mypcb = new PCB()
+
+//------------- View -------------//
+
+class Test extends React.Component {
+	constructor(props){
+		super(props)
+		this.state = {}
+	}
+	componentDidMount(){
+
+		mypcb.on('change', data => {
+			this.setState({data: data})
+		})
+
+		mypcb.fetch({
+			data: {
+				"apikey": mypcb._apiKey
+			}
+		})
+
+	}
+	render(){
+		return <div>
+			test 3 
+			<pre>{JSON.stringify(this.state.data)}</pre>
+		</div>
+	}
+}
+
+
+//------------- Router -------------//
+// var Router = Backbone.Router.extend ({
+// 	routes: {
+// 		"*default"  : "handleView"
+// 	},
+
+// 	handleView: function(query){
+		
+		
+// 	},
+
+// 	initialize: function() {
+// 		try {
+// 			Backbone.history.start()
+// 		}catch(){}
+// 	}
+// })
+
+var rtr
 
 function app() {
-    // start app
-    // new Router()
-    DOM.render(<p>test 2</p>, document.querySelector('.container'))
+	// rtr = new Router()
+	DOM.unmountComponentAtNode(document.querySelector('.container'))
+	DOM.render(<Test />, document.querySelector('.container'))
 }
 
 app()
+
