@@ -79,14 +79,16 @@ var PCBView = React.createClass ({
 	},
 
 	render: function(){
-		return <div>
-			test 3 
-			<pre>{JSON.stringify(this.state.data)}</pre>
-			{this.state.data.get('files').map(function(file) {
-				return <img src={`https://demo.development.macrofab.com/api/v2${file.url}?preview=1`} /> 
-			})
-			}
-		</div>
+		return (
+			<div className="pcbContainer">
+				test 3 
+				<pre>{JSON.stringify(this.state.data)}</pre>
+				{this.state.data.get('files').map(function(file) {
+					return <img src={`https://demo.development.macrofab.com/api/v2${file.url}?preview=1`} /> 
+					})
+				}
+			</div>
+		)
 	}
 })
 
