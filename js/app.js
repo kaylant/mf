@@ -59,19 +59,16 @@ var PCB = Backbone.Model.extend ({
 	}
 })
 
-var mypcb = new PCB()
+//------------- Views -------------//
 
-//------------- View -------------//
-
-class Test extends React.Component {
-	constructor(props){
-		super(props)
-		this.state = {
+var PCBView = React.createClass ({
+	getInitialState: function(){
+		return {
 			data: new PCB()		
 		}
-	}
+	},
 
-	componentDidMount(){
+	componentDidMount: function(){
 
 		this.state.data.on('change', data => {
 			this.setState({data: data})
@@ -79,9 +76,9 @@ class Test extends React.Component {
 
 		this.state.data.fetch()
 
-	}
-	render(){
-		console.log(this.state)
+	},
+
+	render: function(){
 		return <div>
 			test 3 
 			<pre>{JSON.stringify(this.state.data)}</pre>
@@ -91,33 +88,13 @@ class Test extends React.Component {
 			}
 		</div>
 	}
-}
+})
 
 
-//------------- Router -------------//
-// var Router = Backbone.Router.extend ({
-// 	routes: {
-// 		"*default"  : "handleView"
-// 	},
-
-// 	handleView: function(query){
-		
-		
-// 	},
-
-// 	initialize: function() {
-// 		try {
-// 			Backbone.history.start()
-// 		}catch(){}
-// 	}
-// })
-
-var rtr
 
 function app() {
-	// rtr = new Router()
 	DOM.unmountComponentAtNode(document.querySelector('.container'))
-	DOM.render(<Test />, document.querySelector('.container'))
+	DOM.render(<PCBView />, document.querySelector('.container'))
 }
 
 app()
