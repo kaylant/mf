@@ -43,10 +43,15 @@ import DOM from 'react-dom'
 import React, {Component} from 'react'
 import Backbone from 'backbone'
 
-//------------- Model/Collection -------------//
+//------------- Model-------------//
+
+// Gerber all files => /api/v2/pcb/0dn5h4/1/files/gerber
+
 var PCB = Backbone.Model.extend ({
-	url: "/macrofab/pcb/0dn5h4/1?",
-	_apiKey: "tvkIHgLau3M18w8WeGOMdKC3mA7yiOA",
+	url: "/macrofab/pcb/0dn5h4/1/files/gerber?",
+	defaults: {
+		files: []
+	},
 	initialize: function(){
 		this.on('change', () => {
 			console.log(this.toJSON())
@@ -61,25 +66,29 @@ var mypcb = new PCB()
 class Test extends React.Component {
 	constructor(props){
 		super(props)
-		this.state = {}
+		this.state = {
+			data: new PCB()		
+		}
 	}
+
 	componentDidMount(){
 
-		mypcb.on('change', data => {
+		this.state.data.on('change', data => {
 			this.setState({data: data})
 		})
 
-		mypcb.fetch({
-			data: {
-				"apikey": mypcb._apiKey
-			}
-		})
+		this.state.data.fetch()
 
 	}
 	render(){
+		console.log(this.state)
 		return <div>
 			test 3 
 			<pre>{JSON.stringify(this.state.data)}</pre>
+			{this.state.data.get('files').map(function(file) {
+				return <img src={`https://demo.development.macrofab.com/api/v2${file.url}?preview=1`} /> 
+			})
+			}
 		</div>
 	}
 }

@@ -92,9 +92,22 @@ Routes go here
 */
 
 // default proxying
-const replaceRemoteTokens = (ctx, webUrl, tokens=webUrl.match(/:(\w+)/ig)) =>
-    (tokens || []).reduce((a, t) =>
-        a.replace(new RegExp(t, 'ig'), ctx.params[t.substr(1)]), webUrl)
+const replaceRemoteTokens = (ctx,localUrl, webUrl, tokens=webUrl.match(/:(\w+)/ig)) =>
+{
+    var res
+    if (tokens) {
+        console.log('yeah')
+        res = tokens.reduce((a, t) =>
+            a.replace(new RegExp(t, 'ig'), ctx.params[t.substr(1)]), webUrl)
+    }
+    else {
+        let root = localUrl.split('*')[0]
+        let fullPath = ctx.req._parsedUrl.pathname
+        let relPath = fullPath.split(root)[1]
+        res = webUrl + relPath
+    }
+    return res
+}
 
 const get = (url, headers={}) =>
     new Promise((res,rej) => {
@@ -115,11 +128,12 @@ const get = (url, headers={}) =>
 const proxify = (router, localUrl, webUrl, headers) => {
     router.get(localUrl, async (ctx, next) => {
         try {
-            console.log('--------------',{
-                url: replaceRemoteTokens(ctx, webUrl) + (ctx.req._parsedUrl.search || '')
+            console.log(localUrl,webUrl,'--------------',{
+                url: replaceRemoteTokens(ctx,localUrl, webUrl) + (ctx.req._parsedUrl.search || '')
             })
-            var data = await get(replaceRemoteTokens(ctx, webUrl) + (ctx.req._parsedUrl.search || ''), headers)
+            var data = await get(replaceRemoteTokens(ctx, localUrl, webUrl) + (ctx.req._parsedUrl.search || '') + '&apikey=tvkIHgLau3M18w8WeGOMdKC3mA7yiOA', headers)
         } catch(e) {
+            console.log(e)
             ctx.body = e
             return
         }
@@ -137,7 +151,10 @@ const proxify = (router, localUrl, webUrl, headers) => {
 // examples:
 // proxify(router, '/yummly/recipes', 'http://api.yummly.com/v1/api/recipes')
 // proxify(router, '/brewery/styles', 'https://api.brewerydb.com/v2/styles')
-proxify(router, '/macrofab/:r1/:r2/:r3', 'https://demo.development.macrofab.com/api/v2/:r1/:r2/:r3', {Accept: 'application/json'})
+// proxify(router, '/macrofab/:r1/:r2/:r3/:r4/:r5', 'https://demo.development.macrofab.com/api/v2/:r1/:r2/:r3/:r4/:r5', {Accept: 'application/json'})
+
+proxify(router, '/macrofab/*', 'https://demo.development.macrofab.com/api/v2/', {Accept: 'application/json'})
+
 
 const guid = (function() {
     const s4 = () => Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1)
