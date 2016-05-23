@@ -41,6 +41,7 @@ if (module.hot) {
 
 import DOM from 'react-dom'
 import React, {Component} from 'react'
+import Backbone from 'backbone'
 
 //------------- Model-------------//
 
