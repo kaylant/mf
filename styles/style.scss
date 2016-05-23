@@ -152,8 +152,13 @@ $font: 'Roboto';
     }
 }
 
+.progressBar {
+    padding-top: 50px;
+}
+
 .pcbContainer {
     width: 100%;
+    padding-top: 50px;
 
     .pcbImgs {
         margin: 15px;
