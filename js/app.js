@@ -68,7 +68,7 @@ var Nav = React.createClass ({
 				<div className="navContent">
 					<img id="logo" src={`../images/mfLogo.png`}/>
 					<ul className="navRight">
-						<li>Pcbs</li>
+						<li>PCBs</li>
 						<li>Products</li>
 						<li>Inventory<img src={`../images/ic_arrow_drop_down_black_24px.svg`}/></li>
 						<li>House Parts</li>
@@ -84,7 +84,13 @@ var Nav = React.createClass ({
 var ProgressBar = React.createClass ({
 	render: function() {
 		return (
-			<div className="progressBar">12345</div>
+			<div className="progressBar">
+				<div className="progress1"><div className="menu1">1</div><div className="line1"></div>PCB Specifications</div>
+				<div className="progress2"><div className="menu2">2</div><div className="line2"></div>Design Files</div>
+				<div className="progress3"><div className="menu3">3</div><div className="line3"></div>PCB</div>
+				<div className="progress4"><div className="menu4">4</div><div className="line4"></div>Bill of Materials</div>
+				<div className="progress5"><div className="menu5">5</div><div className="line5"></div>Placement</div>
+			</div>
 			)
 	}
 })
