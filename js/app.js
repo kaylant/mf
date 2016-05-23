@@ -61,6 +61,26 @@ var PCB = Backbone.Model.extend ({
 
 //------------- Views -------------//
 
+var Nav = React.createClass ({
+	render: function() {
+		return (
+			<div className="navBar">
+				<div className="navContent">
+					<img id="logo" src={`../images/mfLogo.png`}/>
+					<ul className="navRight">
+						<li>Pcbs</li>
+						<li>Products</li>
+						<li>Inventory<img src={`../images/ic_arrow_drop_down_black_24px.svg`}/></li>
+						<li>House Parts</li>
+						<li>Help<img src={`../images/ic_arrow_drop_down_black_24px.svg`}/></li>
+						<li>demo.user@email.com<img src={`../images/ic_arrow_drop_down_black_24px.svg`}/></li>
+					</ul>
+				</div>
+			</div>
+			)
+	}
+})
+
 var PCBView = React.createClass ({
 	getInitialState: function(){
 		return {
@@ -81,10 +101,10 @@ var PCBView = React.createClass ({
 	render: function(){
 		return (
 			<div className="pcbContainer">
-				test 3 
-				<pre>{JSON.stringify(this.state.data)}</pre>
-				{this.state.data.get('files').map(function(file) {
-					return <img src={`https://demo.development.macrofab.com/api/v2${file.url}?preview=1`} /> 
+				{/* <pre>{JSON.stringify(this.state.data)}</pre> */}
+				<Nav/>
+				{this.state.data.get('files').map(function(file, i) {
+					return <img className="pcbImgs" src={`https://demo.development.macrofab.com/api/v2${file.url}?preview=1`} key={i}/> 
 					})
 				}
 			</div>

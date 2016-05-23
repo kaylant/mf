@@ -1,22 +1,7 @@
 @import "../bower_components/normalize-scss/normalize.css";
 @import "../bower_components/typeplate-starter-kit/css/typeplate.css";
 
-p+p {
-    text-indent: 0;
-    margin-top: 0;
-}
 
-p {
-    max-width: 80ch;
-    margin-left: 0;
-    margin-right: auto;
-}
-
-ul, ol {
-    max-width: 80ch;
-    margin-left: 0;
-    margin-right: auto;
-}
 
 /**
  * BOX-SIZING
@@ -92,7 +77,7 @@ img {
     max-width: 100%;
 }
 body {
-    font-family: 'San Francisco', 'Helvetica', 'Trebuchet MS', Arial, sans-serif;
+    font-family: 'Roboto', 'Helvetica', 'Trebuchet MS', Arial, sans-serif;
 }
 
 /**
@@ -126,4 +111,52 @@ body {
 /**
  * App code
  */
+
+$font: 'Roboto';
+
+.navBar {
+    width: 100%;
+    height: 50px;
+    position: fixed;
+    background-color: #fff;
+    box-shadow: 0px 4px 4px 0px rgba(0,0,0,0.25);
+
+    .navContent {
+        width: 1160px;
+        margin: 0 auto;
+        position: relative;
+
+        #logo {
+            width: 150px;
+            margin-top: 8px;
+        }
+
+        .navRight {
+            right: 0px;
+            font-family: $font;
+            font-size: .8em;
+            display: inline;
+            position: absolute;
+            margin-top: 15px;
+
+            li {
+                display: inline; 
+                margin-left: 35px;
+                position: relative;   
+
+                img {
+                    position: absolute;
+                }            
+            }
+        }
+    }
+}
+
+.pcbContainer {
+    width: 100%;
+
+    .pcbImgs {
+        margin: 15px;
+    }
+}
 
