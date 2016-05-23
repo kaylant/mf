@@ -104,7 +104,8 @@ var PCBView = React.createClass ({
 				{/* <pre>{JSON.stringify(this.state.data)}</pre> */}
 				<Nav/>
 				{this.state.data.get('files').map(function(file, i) {
-					return <img className="pcbImgs" src={`https://demo.development.macrofab.com/api/v2${file.url}?preview=1`} key={i}/> 
+					var styleObj = {zIndex: -1, opacity: .5}
+					return <img className="pcbImgs" src={`https://demo.development.macrofab.com/api/v2${file.url}?preview=1`} key={i} style={styleObj}/> 
 					})
 				}
 			</div>
