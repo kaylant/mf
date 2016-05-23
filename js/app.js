@@ -102,14 +102,11 @@ var PCBView = React.createClass ({
 		}
 	},
 
-	componentDidMount: function(){
-
+	componentWillMount: function(){
 		this.state.data.on('change', data => {
 			this.setState({data: data})
 		})
-
 		this.state.data.fetch()
-
 	},
 
 	render: function(){
@@ -118,18 +115,50 @@ var PCBView = React.createClass ({
 				{/* <pre>{JSON.stringify(this.state.data)}</pre> */}
 				<Nav/>
 				<ProgressBar/>
-				<div className="pcbContainer">
-					{this.state.data.get('files').map(function(file, i) {
-						var styleObj = {zIndex: -1, opacity: .5}
-						return <img className="pcbImgs" src={`https://demo.development.macrofab.com/api/v2${file.url}?preview=1`} key={i} style={styleObj}/> 
+				<ControlsContainer files={this.state.data}/>
+				<div className="pcbDetailsContainer">
+					<div className="boardContainer">
+						{this.state.data.get('files').map(function(file, i) {
+						var styleObj = {zIndex: -1, opacity: .5}							
+							return <img className="pcbImgs" src={`https://demo.development.macrofab.com/api/v2${file.url}?preview=1`} key={i} style={styleObj}/> 
 						})
 					}
+					</div>
 				</div>
 			</div>
 		)
 	}
 })
 
+var ControlsContainer = React.createClass ({
+	_renderTitles: function() {
+		var jsxArray = []
+		var titlesObjArr = this.props.files.get('files')
+		if (titlesObjArr) {
+			for (var i=0; i<titlesObjArr.length; i++) {
+				var boardObj = titlesObjArr[i]
+				for (var prop in boardObj) {
+					var titles = boardObj["title"]
+					//console.log(titles)
+					
+				}
+				jsxArray.push(titles)
+			}
+		}
+		return jsxArray
+	},
+
+	render: function() {
+		// console.log(this.props.files.get('files'))
+		var styleObj = {display: "block"}
+		return (
+			<div className="controlsContainer">
+				<p>Board Layers</p>
+				<p className="layerTitles" style={styleObj}>{this._renderTitles()}</p>
+			</div>
+			)
+	}
+})
 
 
 function app() {

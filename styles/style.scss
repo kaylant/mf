@@ -16,58 +16,6 @@
     transition-timing-function: ease;
 }
 
-/**
- * GRIDS
- */
-
-.grid {
-    display: block;
-    text-align: justify;
-    font-size: 0;
-    position: relative;
-
-    > * {
-        display: inline-block;
-        width: 100%;
-        font-size: 1rem;
-        text-align: left;
-    }
-
-    &:after {
-        display: table;
-        width: 100%;
-    }
-}
-
-@define-mixin grid_r $col, $width {
-    @media (min-width: $(width)px) {
-        .grid-$(col)-$(width) {
-            & > * {
-                width: calc(100 / $col)%;
-            }
-        }
-    }
-}
-
-@define-mixin grid $col {
-    .grid-$(col) {
-        & > * {
-            width: calc(100 / $col)%;
-        }
-    }
-}
-
-@mixin grid 2;
-@mixin grid 4;
-@mixin grid 8;
-@mixin grid_r 2, 400;
-@mixin grid_r 2, 640;
-@mixin grid_r 2, 800;
-@mixin grid_r 4, 400;
-@mixin grid_r 4, 800;
-@mixin grid_r 8, 800;
-@mixin grid_r 8, 1024;
-@mixin grid_r 8, 1280;
 
 /**
  * GENERAL
@@ -322,13 +270,40 @@ $tertiary-color: #10181f;
     }
 }
 
-.pcbContainer {
-    width: 100%;
+.pcbDetailsContainer {
+    max-width: 1170px;
     padding-top: 50px;
+    margin: 0 auto;
+    position: relative;
 
-    .pcbImgs {
-        margin: 15px;
-        position: absolute;
+
+    .boardContainer {
+        width: 950px;
+
+        .pcbImgs {
+            position: absolute;
+            width: 900px;
+        }
+
+    }
+
+}
+
+@media (max-width:768px) {
+    .pcbDetailsContainer {
+        border: 4px solid red;
+        max-width: 750px;
+    }
+}
+
+.controlsContainer {
+    // background-color: green;
+    width: 225px;
+    position: absolute;
+    right: 0px;
+
+    p.layerTitles {
+        display: block;
     }
 }
 
