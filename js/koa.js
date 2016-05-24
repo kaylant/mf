@@ -49,48 +49,6 @@ app.keys = [ Array(4).fill(true).map(x => Math.random()+'').join('') ]
 app.use(adapt(session({ maxAge: 24 * 60 * 60 * 1000 }, app)))
 app.use(adapt(bodyParser()))
 
-/*
-Turn on passport (authenticate your users through twitter, etc)
- */
-
-// uncomment to enable passport
-// app.use(passport.initialize())
-// app.use(passport.session())
-
-// router.get('/logout', ctx => {
-//     ctx.logout()
-//     ctx.redirect('/')
-// })
-
-const authVia = (router, name, success='/', failure='/failure-to-auth') => {
-    router.get(`/auth/${name}`, passport.authenticate(name))
-    router.get(`/auth/${name}/callback`, passport.authenticate(name, {successRedirect: success, failureRedirect: failure}))
-}
-
-// uncomment to enable auth via facebook
-// authVia(router, 'facebook')
-
-// uncomment to enable auth via twitter
-// authVia(router, 'twitter')
-
-// uncomment to enable auth via google
-// authVia(router, 'google')
-
-// uncomment the following to require someone to be logged in, else redirect them to /not-logged-in
-// (needed if you turn on any authentication)
-//
-// app.use((ctx, next) => {
-//     if (ctx.isAuthenticated()) {
-//         return next()
-//     } else {
-//         ctx.redirect('/not-logged-in')
-//     }
-// })
-
-/*
-Routes go here
-*/
-
 // default proxying
 const replaceRemoteTokens = (ctx,localUrl, webUrl, tokens=webUrl.match(/:(\w+)/ig)) =>
 {
@@ -125,25 +83,18 @@ const get = (url, headers={}) =>
         })
     })
 
-const proxify = (router, localUrl, webUrl, headers) => {
+const querify = data => '?'+Object.keys(data).map(key => key+'='+data[key]).join('&')
+
+const proxify = (router, localUrl, webUrl, headers, search) => {
     router.get(localUrl, async (ctx, next) => {
         try {
-            console.log(localUrl,webUrl,'--------------',{
-                url: replaceRemoteTokens(ctx,localUrl, webUrl) + (ctx.req._parsedUrl.search || '')
-            })
-            var data = await get(replaceRemoteTokens(ctx, localUrl, webUrl) + (ctx.req._parsedUrl.search || '') + '&apikey=tvkIHgLau3M18w8WeGOMdKC3mA7yiOA', headers)
+            var data = await get(replaceRemoteTokens(ctx, localUrl, webUrl) + (querify(search) || ctx.req._parsedUrl.search || ''), headers)
         } catch(e) {
-            console.log(e)
             ctx.body = e
             return
         }
         ctx.body = data
     })
-
-    // router.post(localUrl, async (ctx, next) => {
-    //     let data = await request.post(replaceRemoteTokens(ctx.req, webUrl) + ctx.req._parsedUrl.search)//, {form:ctx.req.query})
-    //     ctx.body = data
-    // })
 }
 
 // add your proxies here.
@@ -153,111 +104,7 @@ const proxify = (router, localUrl, webUrl, headers) => {
 // proxify(router, '/brewery/styles', 'https://api.brewerydb.com/v2/styles')
 // proxify(router, '/macrofab/:r1/:r2/:r3/:r4/:r5', 'https://demo.development.macrofab.com/api/v2/:r1/:r2/:r3/:r4/:r5', {Accept: 'application/json'})
 
-proxify(router, '/macrofab/*', 'https://demo.development.macrofab.com/api/v2/', {Accept: 'application/json'})
-
-
-const guid = (function() {
-    const s4 = () => Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1)
-    return () => s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4()
-})()
-
-const enableREST = (router) => {
-    let collections = {}
-    router.get('/collections/:collectionName', async (ctx, next) => {
-        if (!collections[ctx.params.collectionName]) {
-            ctx.body = []
-        } else {
-            ctx.body = collections[ctx.params.collectionName]
-        }
-    })
-
-    router.post('/collections/:collectionName', async (ctx, next) => {
-        var collection = collections[ctx.params.collectionName]
-        if (!collection) {
-            collection = collections[ctx.params.collectionName] = []
-        }
-
-        var result = ctx.request.body
-        if (!result) {
-            ctx.statusCode = 404
-            return
-        }
-
-        if (result instanceof Array) {
-            result.forEach(function(d) {
-                d.id = guid()
-                collections[ctx.params.collectionName].push(d)
-            })
-            ctx.body = result
-        } else {
-            result.id = guid()
-            collections[ctx.params.collectionName].push(result)
-            ctx.body = result
-        }
-    })
-
-    router.get('/collections/:collectionName/:id', async (ctx, next) => {
-        if (!collections[ctx.params.collectionName]) {
-            ctx.statusCode = 401
-            return
-        }
-        let result = collections[ctx.params.collectionName].filter(i => i.id === ctx.params.id)
-        if (!result || !result.length) {
-            ctx.body = "collection " + ctx.params.collectionName + " does not have an item with id " + ctx.params.id
-            ctx.statusCode = 401
-            return
-        }
-        ctx.body = result[0]
-    })
-
-    router.put('/collections/:collectionName/:id', function(ctx, next) {
-        if (!collections[ctx.params.collectionName]) {
-            ctx.statusCode = 401
-            ctx.body = "collection " + ctx.params.collectionName + " does not exist."
-            return
-        }
-        var result = collections[ctx.params.collectionName].filter(i => i.id === ctx.params.id)
-        if (!result || !result.length) {
-            ctx.statusCode = 401
-            return
-        }
-
-        result[0] = {...result[0], ...ctx.request.body}
-
-        ctx.body = result[0]
-    })
-
-    // DELETE /collections/:collectionName
-    router.delete('/collections/:collectionName/:id', function(ctx, next) {
-        if (!collections[ctx.params.collectionName]) {
-            ctx.statusCode = 401
-            return
-        }
-
-        if (!ctx.params.id && collections[ctx.params.collectionName].length) {
-            ctx.statusCode = 401
-            return
-        }
-
-        collections[ctx.params.collectionName] = collections[ctx.params.collectionName].filter(i => i.id !== ctx.params.id)
-        ctx.body = {msg: 'success'}
-    })
-}
-
-// uncomment the line below to enable an in-memory RESTful endpoint
-// enableREST(router)
-
-// example routes
-//
-// router.get('/', (ctx, next) => {
-//     ctx.status = 200
-//     ctx.body = 'Hello world from worker ' + (cluster.worker ? cluster.worker.id : '') + '!'
-// })
-//
-// router.get('/students/:id', ctx => {
-//     console.log(ctx.params.id)
-//     ctx.body = { name:'test', id: id }
-// })
+proxify(router, '/macrofab/*', 'https://demo.development.macrofab.com/api/v2/', {Accept: 'application/json'}, {apikey:process.env.apikey})
 
 app.use(router.routes())
 app.use(router.allowedMethods())
