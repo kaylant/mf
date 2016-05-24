@@ -348,12 +348,17 @@ $tertiary-color: #10181f;
             font-weight: bold;
         }
 
-        ul {
-            padding: 0;
+        .boardLayers > *{
+            font-size: .8em;
             list-style: none;
 
-            li {
-                font-size: .8em;
+            ul {
+                padding: 0;
+                list-style: none;
+
+                li {
+                    font-size: .8em;
+                }
             }
         }
 

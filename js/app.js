@@ -112,10 +112,43 @@ var PCBView = React.createClass ({
 
 	_showTop: function(){
 		this.setState({className: "boardView_1"})
+		var boardObjects = this.state.data.get('files')
+		var list = document.querySelector("#listContainer")
+		var titlesArr = []
+		if(boardObjects) {
+			for (var i=boardObjects.length-1; i >0; i--) {
+				var boardObj = boardObjects[i]
+				for (var prop in boardObj) {
+					var titles = boardObj["title"]
+				}
+				titlesArr.push(titles)
+			}
+		}
+		list.textContent = titlesArr
 	},
 
 	_showBottom: function(){
 		this.setState({className: "boardView_2"})
+		var list = document.querySelector("#listContainer")
+		// var listItems = document.querySelectorAll(".boardLayerli li")
+		// for (var i = listItems.length -1; i >= 0; i--) {
+		// 	list.innerHTML = listItems[i]
+		// }
+
+		var boardObjects = this.state.data.get('files')
+		var list = document.querySelector("#listContainer")
+		var titlesArr = []
+		if(boardObjects) {
+			for (var i=0; i<boardObjects.length; i++) {
+				var boardObj = boardObjects[i]
+				for (var prop in boardObj) {
+					var titles = boardObj["title"]
+				}
+				titlesArr.push(titles)
+			}
+		}
+		list.textContent = titlesArr
+		
 	},
 
 	_isometric: function(){
@@ -157,18 +190,20 @@ var PCBView = React.createClass ({
 						<button onClick={this._showTop}>Top</button>
 						<button onClick={this._showBottom}>Bottom</button>
 						<button onClick={this._isometric}>Isometric</button>
-						<ul className="boardLayerli">
-							<li>{titlesArr[0]}</li>
-							<li>{titlesArr[1]}</li>
-							<li>{titlesArr[2]}</li>
-							<li>{titlesArr[3]}</li>
-							<li>{titlesArr[4]}</li>
-							<li>{titlesArr[5]}</li>
-							<li>{titlesArr[6]}</li>
-							<li>{titlesArr[7]}</li>
-							<li>{titlesArr[8]}</li>
-							<li>{titlesArr[9]}</li>
-						</ul>
+						<div id="listContainer">
+							<ul className="boardLayerli">
+								<li>{titlesArr[9]}</li>
+								<li>{titlesArr[8]}</li>
+								<li>{titlesArr[7]}</li>
+								<li>{titlesArr[6]}</li>
+								<li>{titlesArr[5]}</li>
+								<li>{titlesArr[4]}</li>
+								<li>{titlesArr[3]}</li>
+								<li>{titlesArr[2]}</li>
+								<li>{titlesArr[1]}</li>
+								<li>{titlesArr[0]}</li>
+							</ul>
+						</div>
 					</div>
 				</div>
 			</div>
