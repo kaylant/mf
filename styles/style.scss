@@ -90,6 +90,7 @@ $tertiary-color: #10181f;
             position: absolute;
             margin-top: 15px;
             color: $primary-color;
+            margin-right: 15px;
 
             li {
                 display: inline; 
@@ -279,11 +280,19 @@ $tertiary-color: #10181f;
         width: 950px;
 
         #wrapper {
-
-            .board.view_1 {
-                transform: rotateX(50deg) rotateY(0deg) rotateZ(-50deg);
-                border: 1px solid purple;
+            
+            .boardView_1 {    
+                transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
             }
+
+            .boardView_2 {
+                transform: rotateX(0deg) rotateY(180deg) rotateZ(0deg);
+                margin-right: 50px;
+            }
+
+            .boardView_3 {    
+                transform: rotateX(50deg) rotateY(0deg) rotateZ(-50deg);
+            }         
         }
 
         .pcbImgs {
@@ -298,8 +307,41 @@ $tertiary-color: #10181f;
         width: 225px;
         position: absolute;
         right: 0px;
-        border: 1px solid $primary-color;
+        border: 2px solid $primary-color;
         padding: 20px 30px;
+
+        button {
+            width: 100px;
+            border: 1px solid #bbb;
+            background-color: #fff;
+            height: 45px;
+            width: 90px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            color: $primary-color;
+            transition: all 0.2s;
+            font-family: $font;
+            font-size: .8em;
+            display: block;
+            border-radius: 500px;
+            -webkit-transform: scale(1,1);
+            -webkit-transition-timing-function: ease-out;
+            -webkit-transition-duration: 250ms;
+            -moz-transform: scale(1,1);
+            -moz-transition-timing-function: ease-out;
+            -moz-transition-duration: 250ms;
+        }
+
+        button:hover {
+            color: $primary-color;
+            background-color: #eee;
+            -webkit-transform: scale(1.05,1.07);
+            -webkit-transition-timing-function: ease-out;
+            -webkit-transition-duration: 250ms;
+            -moz-transform: scale(1.05,1.07);
+            -moz-transition-timing-function: ease-out;
+            -moz-transition-duration: 250ms;
+        }
 
         p {
             font-size: 1em;

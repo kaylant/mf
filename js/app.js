@@ -98,6 +98,7 @@ var ProgressBar = React.createClass ({
 var PCBView = React.createClass ({
 	getInitialState: function(){
 		return {
+			className: "boardView_1",
 			data: new PCB()
 		}
 	},
@@ -109,12 +110,16 @@ var PCBView = React.createClass ({
 		this.state.data.fetch()
 	},
 
-	_flipBoard: function(evt){
-		// alert("flippin")
-		var newView = evt.target.value
-		if (evt) {
-			this.setState({className: "board view_" + newView})
-		}
+	_showTop: function(){
+		this.setState({className: "boardView_1"})
+	},
+
+	_showBottom: function(){
+		this.setState({className: "boardView_2"})
+	},
+
+	_isometric: function(){
+		this.setState({className: "boardView_3"})
 	},
 
 	render: function(){
@@ -125,8 +130,6 @@ var PCBView = React.createClass ({
 				var boardObj = boardObjects[i]
 				for (var prop in boardObj) {
 					var titles = boardObj["title"]
-
-
 				}
 				titlesArr.push(titles)
 			}
@@ -140,15 +143,20 @@ var PCBView = React.createClass ({
 				<div className="pcbDetailsContainer">
 					<div className="boardContainer">
 						<div id="wrapper">
-							{boardObjects.map(function(file, i) {
-							var styleObj = {zIndex: -1, opacity: .5}							
-								return <img className="pcbImgs" src={`https://demo.development.macrofab.com/api/v2${file.url}?preview=1`} key={i} style={styleObj}/> 								
-								})
-							}
+							<div className={this.state.className}>
+								{boardObjects.map(function(file, i) {
+								var styleObj = {zIndex: -1, opacity: .5}							
+									return <img className="pcbImgs" src={`https://demo.development.macrofab.com/api/v2${file.url}?preview=1`} key={i} style={styleObj}/> 								
+									})
+								}
+							</div>
 						</div>
 					</div>
 					<div className="controlsContainer">
 						<p>Board Layers</p>
+						<button onClick={this._showTop}>Top</button>
+						<button onClick={this._showBottom}>Bottom</button>
+						<button onClick={this._isometric}>Isometric</button>
 						<ul className="boardLayerli">
 							<li>{titlesArr[0]}</li>
 							<li>{titlesArr[1]}</li>
@@ -161,7 +169,6 @@ var PCBView = React.createClass ({
 							<li>{titlesArr[8]}</li>
 							<li>{titlesArr[9]}</li>
 						</ul>
-						<button value="1" onClick={this._flipBoard}>flip</button>
 					</div>
 				</div>
 			</div>
