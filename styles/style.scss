@@ -1,8 +1,6 @@
 @import "../bower_components/normalize-scss/normalize.css";
 @import "../bower_components/typeplate-starter-kit/css/typeplate.css";
 
-
-
 /**
  * BOX-SIZING
  */
@@ -280,9 +278,41 @@ $tertiary-color: #10181f;
     .boardContainer {
         width: 950px;
 
+        #wrapper {
+
+            .board.view_1 {
+                transform: rotateX(50deg) rotateY(0deg) rotateZ(-50deg);
+                border: 1px solid purple;
+            }
+        }
+
         .pcbImgs {
             position: absolute;
             width: 900px;
+        }
+
+    }
+
+    .controlsContainer {
+        // background-color: green;
+        width: 225px;
+        position: absolute;
+        right: 0px;
+        border: 1px solid $primary-color;
+        padding: 20px 30px;
+
+        p {
+            font-size: 1em;
+            font-weight: bold;
+        }
+
+        ul {
+            padding: 0;
+            list-style: none;
+
+            li {
+                font-size: .8em;
+            }
         }
 
     }
@@ -296,14 +326,5 @@ $tertiary-color: #10181f;
     }
 }
 
-.controlsContainer {
-    // background-color: green;
-    width: 225px;
-    position: absolute;
-    right: 0px;
 
-    p.layerTitles {
-        display: block;
-    }
-}
 

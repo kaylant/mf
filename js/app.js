@@ -98,7 +98,7 @@ var ProgressBar = React.createClass ({
 var PCBView = React.createClass ({
 	getInitialState: function(){
 		return {
-			data: new PCB()		
+			data: new PCB()
 		}
 	},
 
@@ -109,54 +109,63 @@ var PCBView = React.createClass ({
 		this.state.data.fetch()
 	},
 
+	_flipBoard: function(evt){
+		// alert("flippin")
+		var newView = evt.target.value
+		if (evt) {
+			this.setState({className: "board view_" + newView})
+		}
+	},
+
 	render: function(){
+		var boardObjects = this.state.data.get('files')
+		var titlesArr = []
+		if(boardObjects) {
+			for (var i=0; i<boardObjects.length; i++) {
+				var boardObj = boardObjects[i]
+				for (var prop in boardObj) {
+					var titles = boardObj["title"]
+
+
+				}
+				titlesArr.push(titles)
+			}
+		}
+		
 		return (
 			<div>
 				{/* <pre>{JSON.stringify(this.state.data)}</pre> */}
 				<Nav/>
 				<ProgressBar/>
-				<ControlsContainer files={this.state.data}/>
 				<div className="pcbDetailsContainer">
 					<div className="boardContainer">
-						{this.state.data.get('files').map(function(file, i) {
-						var styleObj = {zIndex: -1, opacity: .5}							
-							return <img className="pcbImgs" src={`https://demo.development.macrofab.com/api/v2${file.url}?preview=1`} key={i} style={styleObj}/> 
-						})
-					}
+						<div id="wrapper">
+							{boardObjects.map(function(file, i) {
+							var styleObj = {zIndex: -1, opacity: .5}							
+								return <img className="pcbImgs" src={`https://demo.development.macrofab.com/api/v2${file.url}?preview=1`} key={i} style={styleObj}/> 								
+								})
+							}
+						</div>
+					</div>
+					<div className="controlsContainer">
+						<p>Board Layers</p>
+						<ul className="boardLayerli">
+							<li>{titlesArr[0]}</li>
+							<li>{titlesArr[1]}</li>
+							<li>{titlesArr[2]}</li>
+							<li>{titlesArr[3]}</li>
+							<li>{titlesArr[4]}</li>
+							<li>{titlesArr[5]}</li>
+							<li>{titlesArr[6]}</li>
+							<li>{titlesArr[7]}</li>
+							<li>{titlesArr[8]}</li>
+							<li>{titlesArr[9]}</li>
+						</ul>
+						<button value="1" onClick={this._flipBoard}>flip</button>
 					</div>
 				</div>
 			</div>
 		)
-	}
-})
-
-var ControlsContainer = React.createClass ({
-	_renderTitles: function() {
-		var jsxArray = []
-		var titlesObjArr = this.props.files.get('files')
-		if (titlesObjArr) {
-			for (var i=0; i<titlesObjArr.length; i++) {
-				var boardObj = titlesObjArr[i]
-				for (var prop in boardObj) {
-					var titles = boardObj["title"]
-					//console.log(titles)
-					
-				}
-				jsxArray.push(titles)
-			}
-		}
-		return jsxArray
-	},
-
-	render: function() {
-		// console.log(this.props.files.get('files'))
-		var styleObj = {display: "block"}
-		return (
-			<div className="controlsContainer">
-				<p>Board Layers</p>
-				<p className="layerTitles" style={styleObj}>{this._renderTitles()}</p>
-			</div>
-			)
 	}
 })
 
