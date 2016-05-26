@@ -83,14 +83,20 @@ const get = (url, headers={}) =>
         })
     })
 
-const querify = data => '?'+Object.keys(data).map(key => key+'='+data[key]).join('&')
+const querify = data => {
+    console.log(data)
+    return '?'+Object.keys(data).map(key => key+'='+data[key]).join('&')
+}
 
 const proxify = (router, localUrl, webUrl, headers, search) => {
     router.get(localUrl, async (ctx, next) => {
+        console.log(replaceRemoteTokens(ctx, localUrl, webUrl) + (ctx.req._parsedUrl.search || ''))
         try {
-            var data = await get(replaceRemoteTokens(ctx, localUrl, webUrl) + (querify(search) || ctx.req._parsedUrl.search || ''), headers)
-        } catch(e) {
+            var data = await get(replaceRemoteTokens(ctx, localUrl, webUrl) + (ctx.req._parsedUrl.search || ''), headers)
+        } 
+        catch(e) {
             ctx.body = e
+            console.log(e)
             return
         }
         ctx.body = data
@@ -104,7 +110,7 @@ const proxify = (router, localUrl, webUrl, headers, search) => {
 // proxify(router, '/brewery/styles', 'https://api.brewerydb.com/v2/styles')
 // proxify(router, '/macrofab/:r1/:r2/:r3/:r4/:r5', 'https://demo.development.macrofab.com/api/v2/:r1/:r2/:r3/:r4/:r5', {Accept: 'application/json'})
 
-proxify(router, '/macrofab/*', 'https://demo.development.macrofab.com/api/v2/', {Accept: 'application/json'}, {apikey:process.env.apikey})
+proxify(router, '/macrofab/*', 'https://demo.development.macrofab.com/api/v2/', {Accept: 'application/json'})
 
 app.use(router.routes())
 app.use(router.allowedMethods())

@@ -348,17 +348,12 @@ $tertiary-color: #10181f;
             font-weight: bold;
         }
 
-        .boardLayers > *{
-            font-size: .8em;
+        ul {
+            padding: 0;
             list-style: none;
 
-            ul {
-                padding: 0;
-                list-style: none;
-
-                li {
-                    font-size: .8em;
-                }
+            li {
+                font-size: .8em;
             }
         }
 
@@ -368,7 +363,7 @@ $tertiary-color: #10181f;
 
 @media (max-width:768px) {
     .pcbDetailsContainer {
-        border: 4px solid red;
+        border: 4px solid blue;
         max-width: 750px;
     }
 }

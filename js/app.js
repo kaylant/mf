@@ -48,7 +48,23 @@ import Backbone from 'backbone'
 // Gerber all files => /api/v2/pcb/0dn5h4/1/files/gerber
 
 var PCB = Backbone.Model.extend ({
-	url: "/macrofab/pcb/0dn5h4/1/files/gerber?",
+	url: function(){
+		return "/macrofab/pcb/0dn5h4/1/files/gerber?apikey="+this.apikey
+	},
+	defaults: {
+		files: []
+	},
+	initialize: function(){
+		this.on('change', () => {
+			console.log(this.toJSON())
+		})
+	}
+})
+
+var Parts = Backbone.Model.extend ({
+	url: function(){
+		return "/macrofab/pcb/0dn5h4/1/placement?apikey="+this.apikey
+	},
 	defaults: {
 		files: []
 	},
@@ -99,15 +115,34 @@ var PCBView = React.createClass ({
 	getInitialState: function(){
 		return {
 			className: "boardView_1",
-			data: new PCB()
+			data: new PCB(),
+			parts: new Parts(),
+			apikey:"tvkIHgLau3M18w8WeGOMdKC3mA7yiOA"
+			// apikey:prompt("Enter your API key")
+		}
+	},
+
+	enterKey: function(){
+		console.log(this.state)
+		if (this.state.apikey) { 
+			this.state.data.apikey = this.state.apikey
+			this.state.parts.apikey = this.state.apikey
+
+			this.state.data.on('change', data => {
+				this.setState({data: data})
+			})
+
+			this.state.parts.on('change', parts => {
+				this.setState({parts: parts})
+			})
+
+			this.state.data.fetch()
+			this.state.parts.fetch()
 		}
 	},
 
 	componentWillMount: function(){
-		this.state.data.on('change', data => {
-			this.setState({data: data})
-		})
-		this.state.data.fetch()
+		this.enterKey()
 	},
 
 	_showTop: function(){
@@ -130,11 +165,6 @@ var PCBView = React.createClass ({
 	_showBottom: function(){
 		this.setState({className: "boardView_2"})
 		var list = document.querySelector("#listContainer")
-		// var listItems = document.querySelectorAll(".boardLayerli li")
-		// for (var i = listItems.length -1; i >= 0; i--) {
-		// 	list.innerHTML = listItems[i]
-		// }
-
 		var boardObjects = this.state.data.get('files')
 		var list = document.querySelector("#listContainer")
 		var titlesArr = []
