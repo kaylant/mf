@@ -47,6 +47,20 @@ import Backbone from 'backbone'
 
 // Gerber all files => /api/v2/pcb/0dn5h4/1/files/gerber
 
+var Base = Backbone.Model.extend ({
+	url: function(){
+		return "/macrofab/pcb/0dn5h4/1/?apikey="+this.apikey
+	},
+	defaults: {
+		files: []
+	},
+	initialize: function(){
+		this.on('change', () => {
+			console.log(this.toJSON())
+		})
+	}
+})
+
 var PCB = Backbone.Model.extend ({
 	url: function(){
 		return "/macrofab/pcb/0dn5h4/1/files/gerber?apikey="+this.apikey
@@ -115,6 +129,7 @@ var PCBView = React.createClass ({
 	getInitialState: function(){
 		return {
 			className: "boardView_1",
+			base: new Base(),
 			data: new PCB(),
 			parts: new Parts(),
 			apikey:"tvkIHgLau3M18w8WeGOMdKC3mA7yiOA"
@@ -127,6 +142,11 @@ var PCBView = React.createClass ({
 		if (this.state.apikey) { 
 			this.state.data.apikey = this.state.apikey
 			this.state.parts.apikey = this.state.apikey
+			this.state.base.apikey = this.state.apikey
+
+			this.state.base.on('change', base => {
+				this.setState({base: base})
+			})
 
 			this.state.data.on('change', data => {
 				this.setState({data: data})
@@ -136,6 +156,7 @@ var PCBView = React.createClass ({
 				this.setState({parts: parts})
 			})
 
+			this.state.base.fetch()
 			this.state.data.fetch()
 			this.state.parts.fetch()
 		}

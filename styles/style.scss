@@ -280,6 +280,7 @@ $tertiary-color: #10181f;
         width: 950px;
 
         #wrapper {
+            perspective: 1500px;
             
             .boardView_1 {    
                 transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
@@ -290,8 +291,10 @@ $tertiary-color: #10181f;
                 margin-right: 50px;
             }
 
-            .boardView_3 {    
-                transform: rotateX(50deg) rotateY(0deg) rotateZ(-50deg);
+            .boardView_3 {
+                padding-top: 50px;
+                width: 700px; 
+                transform: rotateX(50deg) rotateY(0deg) rotateZ(-25deg);
             }         
         }
 
@@ -343,6 +346,15 @@ $tertiary-color: #10181f;
             -moz-transition-duration: 250ms;
         }
 
+        button:focus {
+            outline: 0;
+            background-color: lightblue;
+        }
+
+        #listContainer {
+            font-size: .8em;
+        }
+
         p {
             font-size: 1em;
             font-weight: bold;
@@ -351,10 +363,6 @@ $tertiary-color: #10181f;
         ul {
             padding: 0;
             list-style: none;
-
-            li {
-                font-size: .8em;
-            }
         }
 
     }
