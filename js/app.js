@@ -43,7 +43,7 @@ import DOM from 'react-dom'
 import React, {Component} from 'react'
 import Backbone from 'backbone'
 
-//------------- Model-------------//
+//------------- Models-------------//
 
 // Gerber all files => /api/v2/pcb/0dn5h4/1/files/gerber
 
@@ -166,6 +166,29 @@ var PCBView = React.createClass ({
 		this.enterKey()
 	},
 
+
+	_showSide1Parts: function() {
+		var parts = this.state.parts.get('placements')
+		var partsListContainer = document.querySelector(".partsListContainer")
+		var partsListArr = []
+		if(parts) {
+			for (var i=0; i<parts.length; i++) {
+				var singlePart = parts[i]
+				for (var prop in singlePart) {
+					var side = singlePart["side"]
+					var partName = singlePart["part"]
+				}
+				if (side === "1") {
+					partsListArr.push(partName)
+				}
+
+			}
+
+		}
+		partsListContainer.textContent = "Top Part List: " + partsListArr
+
+	},
+
 	_showTop: function(){
 		this.setState({className: "boardView_1"})
 		var boardObjects = this.state.data.get('files')
@@ -181,11 +204,33 @@ var PCBView = React.createClass ({
 			}
 		}
 		list.textContent = titlesArr
+		this._showSide1Parts()
+	},
+
+	_showSide2Parts: function() {
+		var parts = this.state.parts.get('placements')
+		var partsListContainer = document.querySelector(".partsListContainer")
+		var partsListArr = []
+		if(parts) {
+			for (var i=0; i<parts.length; i++) {
+				var singlePart = parts[i]
+				for (var prop in singlePart) {
+					var side = singlePart["side"]
+					var partName = singlePart["part"]
+				}
+				if (side === "2") {
+					partsListArr.push(partName)
+				}
+
+			}
+
+		}
+		partsListContainer.textContent = "Bottom Part List: " + partsListArr
+
 	},
 
 	_showBottom: function(){
 		this.setState({className: "boardView_2"})
-		var list = document.querySelector("#listContainer")
 		var boardObjects = this.state.data.get('files')
 		var list = document.querySelector("#listContainer")
 		var titlesArr = []
@@ -199,7 +244,7 @@ var PCBView = React.createClass ({
 			}
 		}
 		list.textContent = titlesArr
-		
+		this._showSide2Parts()
 	},
 
 	_isometric: function(){
@@ -220,7 +265,7 @@ var PCBView = React.createClass ({
 		}
 		
 		return (
-			<div>
+			<div className="mainContainer">
 				{/* <pre>{JSON.stringify(this.state.data)}</pre> */}
 				<Nav/>
 				<ProgressBar/>
@@ -256,6 +301,8 @@ var PCBView = React.createClass ({
 							</ul>
 						</div>
 					</div>
+				</div>
+				<div className="partsListContainer">
 				</div>
 			</div>
 		)

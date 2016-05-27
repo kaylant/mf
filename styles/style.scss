@@ -269,112 +269,122 @@ $tertiary-color: #10181f;
     }
 }
 
-.pcbDetailsContainer {
-    max-width: 1170px;
-    padding-top: 50px;
-    margin: 0 auto;
+.mainContainer {
     position: relative;
 
-
-    .boardContainer {
-        width: 950px;
-
-        #wrapper {
-            perspective: 1500px;
-            
-            .boardView_1 {    
-                transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
-            }
-
-            .boardView_2 {
-                transform: rotateX(0deg) rotateY(180deg) rotateZ(0deg);
-                margin-right: 50px;
-            }
-
-            .boardView_3 {
-                padding-top: 50px;
-                width: 700px; 
-                transform: rotateX(50deg) rotateY(0deg) rotateZ(-25deg);
-            }         
-        }
-
-        .pcbImgs {
-            position: absolute;
-            width: 900px;
-        }
-
-    }
-
-    .controlsContainer {
-        // background-color: green;
-        width: 225px;
-        position: absolute;
-        right: 0px;
-        border: 2px solid $primary-color;
-        padding: 20px 30px;
-
-        button {
-            width: 100px;
-            border: 1px solid $primary-color;
-            background-color: #fff;
-            height: 45px;
-            width: 90px;
-            margin-top: 10px;
-            margin-bottom: 10px;
-            color: $primary-color;
-            transition: all 0.2s;
-            font-family: $font;
-            font-size: .8em;
-            display: block;
-            border-radius: 500px;
-            -webkit-transform: scale(1,1);
-            -webkit-transition-timing-function: ease-out;
-            -webkit-transition-duration: 250ms;
-            -moz-transform: scale(1,1);
-            -moz-transition-timing-function: ease-out;
-            -moz-transition-duration: 250ms;
-        }
-
-        button:hover {
-            color: $primary-color;
-            background-color: #eee;
-            -webkit-transform: scale(1.05,1.07);
-            -webkit-transition-timing-function: ease-out;
-            -webkit-transition-duration: 250ms;
-            -moz-transform: scale(1.05,1.07);
-            -moz-transition-timing-function: ease-out;
-            -moz-transition-duration: 250ms;
-        }
-
-        button:focus {
-            outline: 0;
-            background-color: lightblue;
-        }
-
-        #listContainer {
-            font-size: .8em;
-        }
-
-        p {
-            font-size: 1em;
-            font-weight: bold;
-        }
-
-        ul {
-            padding: 0;
-            list-style: none;
-        }
-
-    }
-
-}
-
-@media (max-width:768px) {
     .pcbDetailsContainer {
-        border: 4px solid blue;
-        max-width: 750px;
+        max-width: 1170px;
+        padding-top: 50px;
+        margin: 0 auto;
+        position: relative;
+
+
+        .boardContainer {
+            width: 950px;
+
+            #wrapper {
+                perspective: 1500px;
+                
+                .boardView_1 {    
+                    transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+                }
+
+                .boardView_2 {
+                    transform: rotateX(0deg) rotateY(180deg) rotateZ(0deg);
+                    margin-right: 50px;
+                }
+
+                .boardView_3 {
+                    padding-top: 50px;
+                    width: 700px; 
+                    transform: rotateX(50deg) rotateY(0deg) rotateZ(-25deg);
+                }         
+            }
+
+            .pcbImgs {
+                position: absolute;
+                width: 900px;
+            }
+
+        }
+
+        .controlsContainer {
+            // background-color: green;
+            width: 225px;
+            position: absolute;
+            right: 0px;
+            border: 2px solid $primary-color;
+            padding: 20px 30px;
+
+            button {
+                width: 100px;
+                border: 1px solid $primary-color;
+                background-color: #fff;
+                height: 45px;
+                width: 90px;
+                margin-top: 10px;
+                margin-bottom: 10px;
+                color: $primary-color;
+                transition: all 0.2s;
+                font-family: $font;
+                font-size: .8em;
+                display: block;
+                border-radius: 500px;
+                -webkit-transform: scale(1,1);
+                -webkit-transition-timing-function: ease-out;
+                -webkit-transition-duration: 250ms;
+                -moz-transform: scale(1,1);
+                -moz-transition-timing-function: ease-out;
+                -moz-transition-duration: 250ms;
+            }
+
+            button:hover {
+                color: $primary-color;
+                background-color: #eee;
+                -webkit-transform: scale(1.05,1.07);
+                -webkit-transition-timing-function: ease-out;
+                -webkit-transition-duration: 250ms;
+                -moz-transform: scale(1.05,1.07);
+                -moz-transition-timing-function: ease-out;
+                -moz-transition-duration: 250ms;
+            }
+
+            button:focus {
+                outline: 0;
+                background-color: lightblue;
+            }
+
+            #listContainer {
+                font-size: .8em;
+            }
+
+            p {
+                font-size: 1em;
+                font-weight: bold;
+            }
+
+            ul {
+                padding: 0;
+                list-style: none;
+            }
+
+        }
+
     }
+
+    @media (max-width:768px) {
+        .pcbDetailsContainer {
+            border: 4px solid blue;
+
+        }
+    }
+
+    .partsListContainer {
+        font-size: .8em;
+        max-width: 1170px;
+        margin: 400px auto 0 auto;
+        padding-right: 270px;
+    }
+
 }
-
-
 
