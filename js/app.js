@@ -56,7 +56,7 @@ var Base = Backbone.Model.extend ({
 	},
 	initialize: function(){
 		this.on('change', () => {
-			console.log(this.toJSON())
+			// console.log(this.toJSON())
 		})
 	}
 })
@@ -70,7 +70,7 @@ var PCB = Backbone.Model.extend ({
 	},
 	initialize: function(){
 		this.on('change', () => {
-			console.log(this.toJSON())
+			// console.log(this.toJSON())
 		})
 	}
 })
@@ -138,7 +138,6 @@ var PCBView = React.createClass ({
 	},
 
 	enterKey: function(){
-		console.log(this.state)
 		if (this.state.apikey) { 
 			this.state.data.apikey = this.state.apikey
 			this.state.parts.apikey = this.state.apikey
@@ -185,7 +184,7 @@ var PCBView = React.createClass ({
 			}
 
 		}
-		partsListContainer.textContent = "Top Part List: " + partsListArr
+		partsListContainer.textContent = `Top Part List: ` + partsListArr
 
 	},
 
@@ -225,7 +224,7 @@ var PCBView = React.createClass ({
 			}
 
 		}
-		partsListContainer.textContent = "Bottom Part List: " + partsListArr
+		partsListContainer.textContent = `Bottom Part List: ` + partsListArr
 
 	},
 
@@ -247,6 +246,22 @@ var PCBView = React.createClass ({
 		this._showSide2Parts()
 	},
 
+	_calculateXCoord: function(){
+		var parts = this.state.parts.get('placements')
+		if (parts) {
+			var x1 = this.state.parts.get('placements')[54]
+			console.log(x1)
+			for (var prop in x1) {
+				var xCoord = x1["x_origin"]
+			}
+		if (this.state.className === "boardView_2") {
+				return xCoord
+			} else {
+				return (2490 - xCoord)
+			}
+		}
+	},	
+
 	_isometric: function(){
 		this.setState({className: "boardView_3"})
 	},
@@ -263,7 +278,18 @@ var PCBView = React.createClass ({
 				titlesArr.push(titles)
 			}
 		}
-		
+
+		var parts = this.state.parts.get('placements')
+		if (parts) {
+			var x1 = this.state.parts.get('placements')[54]
+			console.log(x1)
+			for (var prop in x1) {
+				var partName = x1["part"]
+				var xCoord = x1["x_origin"]
+				var yCoord = x1["y_origin"]
+			}
+		}
+
 		return (
 			<div className="mainContainer">
 				{/* <pre>{JSON.stringify(this.state.data)}</pre> */}
@@ -302,7 +328,13 @@ var PCBView = React.createClass ({
 						</div>
 					</div>
 				</div>
-				<div className="partsListContainer">
+				<div className="partsListContainer"></div>
+				<div className="samplePartDetails">
+					<p>Part Details</p>
+					<p>Part Name: {partName}</p>
+					<p>Part Coordinates:</p>
+					<p>X: {this._calculateXCoord()} *Changes Depending on board orientation</p>
+					<p>Y: {yCoord}</p>
 				</div>
 			</div>
 		)
