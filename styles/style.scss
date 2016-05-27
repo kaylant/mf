@@ -282,8 +282,14 @@ $tertiary-color: #10181f;
         .boardContainer {
             width: 950px;
 
+
+            .pcbImgs {
+                position: absolute;
+                width: 900px;
+            }
+
             #wrapper {
-                perspective: 1500px;
+                // perspective: 1500px;
                 
                 .boardView_1 {    
                     transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
@@ -295,16 +301,55 @@ $tertiary-color: #10181f;
                 }
 
                 .boardView_3 {
+                    height: 300px;
                     padding-top: 50px;
                     width: 700px; 
                     transform: rotateX(50deg) rotateY(0deg) rotateZ(-25deg);
-                }         
+
+                    #iso9 {
+                        transform: translateY(0px) translateX(0px);
+                    }
+
+                    #iso8 {
+                        transform: translateY(50px) translateX(-25px);
+                    }
+
+                    #iso7 {
+                        transform: translateY(100px) translateX(-50px);
+                    }
+
+                    #iso6 {
+                        transform: translateY(150px) translateX(-75px);
+                    }
+
+                    #iso5 {
+                        transform: translateY(200px) translateX(-100px);
+                    }
+
+                    #iso4 {
+                        transform: translateY(250px) translateX(-125px);
+                    }
+
+                    #iso3 {
+                        transform: translateY(300px) translateX(-155px);
+                    }
+
+                    #iso2 {
+                        transform: translateY(350px) translateX(-165px);
+                    }
+
+                    #iso1 {
+                        transform: translateY(400px) translateX(-185px);
+                    }
+
+                    #iso0 {
+                        transform: translateY(450px) translateX(-200px);
+                    }
+
+                }
+        
             }
 
-            .pcbImgs {
-                position: absolute;
-                width: 900px;
-            }
 
         }
 
@@ -315,6 +360,8 @@ $tertiary-color: #10181f;
             right: 0px;
             border: 2px solid $primary-color;
             padding: 20px 30px;
+            top: 0;
+            margin-top: 50px;
 
             button {
                 width: 100px;

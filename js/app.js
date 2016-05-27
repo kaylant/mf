@@ -263,6 +263,20 @@ var PCBView = React.createClass ({
 
 	_isometric: function(){
 		this.setState({className: "boardView_3"})
+		var boardObjects = this.state.data.get('files')
+		var list = document.querySelector("#listContainer")
+		var titlesArr = []
+		if(boardObjects) {
+			for (var i=boardObjects.length-1; i >0; i--) {
+				var boardObj = boardObjects[i]
+				for (var prop in boardObj) {
+					var titles = boardObj["title"]
+				}
+				titlesArr.push(titles)
+			}
+		}
+		list.textContent = titlesArr
+		this._showSide1Parts()
 	},
 
 	render: function(){
@@ -300,7 +314,7 @@ var PCBView = React.createClass ({
 							<div className={this.state.className}>
 								{boardObjects.map(function(file, i) {
 								var styleObj = {zIndex: -1, opacity: .5}							
-									return <img className="pcbImgs" src={`https://demo.development.macrofab.com/api/v2${file.url}?preview=1`} key={i} style={styleObj}/> 								
+									return <img className="pcbImgs" src={`https://demo.development.macrofab.com/api/v2${file.url}?preview=1`} key={i} style={styleObj} id={`iso${i}`}/> 								
 									})
 								}
 							</div>
@@ -331,10 +345,10 @@ var PCBView = React.createClass ({
 				<div className="samplePartDetails">
 					<p>Part Details</p>
 					<ul className="partsDetailsli">
-						<li>Part Name: {partName}</li>
+						<li>Part Name: {partName} </li>
 						<li>Part Coordinates:</li>
-						<li>X: {this._calculateXCoord()} *Changes Depending on board orientation</li>
-						<li>Y: {yCoord}</li>
+						<li>X: {this._calculateXCoord()} mils *Changes Depending on board orientation</li>
+						<li>Y: {yCoord} mils</li>
 					</ul>
 				</div>
 			</div>
