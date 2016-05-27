@@ -132,8 +132,7 @@ var PCBView = React.createClass ({
 			base: new Base(),
 			data: new PCB(),
 			parts: new Parts(),
-			apikey:"tvkIHgLau3M18w8WeGOMdKC3mA7yiOA"
-			// apikey:prompt("Enter your API key")
+			apikey:prompt("Enter your API key")
 		}
 	},
 
