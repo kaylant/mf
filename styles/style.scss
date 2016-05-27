@@ -386,5 +386,17 @@ $tertiary-color: #10181f;
         padding-right: 270px;
     }
 
+    .samplePartDetails {
+        font-size: .8em;
+        max-width: 1170px;
+        margin: 20px auto 0;
+        padding-right: 270px;
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+    }
+
 }
 

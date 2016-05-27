@@ -165,7 +165,6 @@ var PCBView = React.createClass ({
 		this.enterKey()
 	},
 
-
 	_showSide1Parts: function() {
 		var parts = this.state.parts.get('placements')
 		var partsListContainer = document.querySelector(".partsListContainer")
@@ -331,10 +330,12 @@ var PCBView = React.createClass ({
 				<div className="partsListContainer"></div>
 				<div className="samplePartDetails">
 					<p>Part Details</p>
-					<p>Part Name: {partName}</p>
-					<p>Part Coordinates:</p>
-					<p>X: {this._calculateXCoord()} *Changes Depending on board orientation</p>
-					<p>Y: {yCoord}</p>
+					<ul className="partsDetailsli">
+						<li>Part Name: {partName}</li>
+						<li>Part Coordinates:</li>
+						<li>X: {this._calculateXCoord()} *Changes Depending on board orientation</li>
+						<li>Y: {yCoord}</li>
+					</ul>
 				</div>
 			</div>
 		)
