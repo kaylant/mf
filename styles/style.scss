@@ -305,45 +305,56 @@ $tertiary-color: #10181f;
                     padding-top: 50px;
                     width: 700px; 
                     transform: rotateX(50deg) rotateY(0deg) rotateZ(-25deg);
+                    border: 1px solid gray;
 
                     #iso9 {
-                        transform: translateY(0px) translateX(0px);
+                        transform: translateY(-5px) translateX(-22px);
+                        border: 1px solid gray;
                     }
 
                     #iso8 {
-                        transform: translateY(50px) translateX(-25px);
+                        transform: translateY(43px) translateX(-45px);
+                        border: 1px solid gray;
                     }
 
                     #iso7 {
-                        transform: translateY(100px) translateX(-50px);
+                        transform: translateY(89px) translateX(-65px);
+                        border: 1px solid gray;
                     }
 
                     #iso6 {
-                        transform: translateY(150px) translateX(-75px);
+                        transform: translateY(135px) translateX(-86px);
+                        border: 1px solid gray;
                     }
 
                     #iso5 {
-                        transform: translateY(200px) translateX(-100px);
+                        transform: translateY(185px) translateX(-110px);
+                        border: 1px solid gray;
                     }
 
                     #iso4 {
-                        transform: translateY(250px) translateX(-125px);
+                        transform: translateY(236px) translateX(-134px);
+                        border: 1px solid gray;
                     }
 
                     #iso3 {
-                        transform: translateY(300px) translateX(-155px);
+                        transform: translateY(288px) translateX(-158px);
+                        border: 1px solid gray;
                     }
 
                     #iso2 {
-                        transform: translateY(350px) translateX(-165px);
+                        transform: translateY(338px) translateX(-181px);
+                        border: 1px solid gray;
                     }
 
                     #iso1 {
-                        transform: translateY(400px) translateX(-185px);
+                        transform: translateY(387px) translateX(-204px);
+                        border: 1px solid gray;
                     }
 
                     #iso0 {
-                        transform: translateY(450px) translateX(-200px);
+                        transform: translateY(433px) translateX(-226px);
+                        border: 1px solid gray;
                     }
 
                 }
